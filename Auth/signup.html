@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SignUp</title>
+        <script src="https://cdn.tailwindcss.com"></script>
+
+</head>
+<body class="bg-gray-400">
+    <div class="flex justify-center mt-[10%] mx-4">
+
+    <div class="w-96 backdrop-blur-lg bg-opacity-80 rounded-lg shadow-lg p-5 bg-gray-900 text-white">
+        <h2 class="text-2xl font-bold pb-5">SignUp</h2>
+        <div>
+            <div class="mb-4">
+                <label for="name" class="block mb-2 text-sm font-medium">Your name</label>
+                <input type="text" id="sign-up-name" 
+                    class="bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 w-full py-2.5 px-4"
+                    placeholder="Andrew Jackson" required value="">
+            </div>
+            <div class="mb-4">
+                <label for="email" class="block mb-2 text-sm font-medium">Your email</label>
+                <input type="email" id="sign-up-email"
+                    class="bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 w-full py-2.5 px-4"
+                    placeholder="andrew@mail.com" required value="">
+            </div>
+            <div class="mb-4">
+                <label for="password" class="block mb-2 text-sm font-medium">Your password</label>
+                <input type="password" id="sign-up-password"
+                    class="bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 w-full py-2.5 px-4"
+                    placeholder="*********" required value="">
+            </div>
+            <div>
+                <p class="text-red-500 pb-5"></p>
+            </div>
+            <div class="flex items-center justify-between mb-4">
+                <button onclick="signup()"
+                    class="text-white bg-purple-600 hover:bg-purple-700 focus:ring-2 focus:ring-blue-300 font-medium rounded-lg text-sm py-2.5 px-5 w-full sm:w-auto">
+                    Signup
+                </button>
+                <div class="flex items-center text-sm">
+                    <p>Already have an account?</p>
+                    <a href="./login.html" class="underline cursor-pointer ml-1">Sign in</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+
+    <script type="module" src="../app.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+</body>
+</html>

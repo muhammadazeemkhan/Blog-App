@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Read Blogs</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body>
+    <div class="flex justify-between m-4">
+      <h1 class="text-center text-4xl">All Blogs</h1>
+      <button
+        class="inline-flex text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded text-lg"
+        onclick="logOut()"
+      >
+        Logout
+      </button>
+    </div>
+    <a class="ms-4 text-2xl" href="./currentUserBlog.html"
+      >To Read your blogs <span class="text-blue-300"> click here </span>
+    </a>
+
+    <div id="allBlogContainer" class="flex flex-col p-4 gap-4"></div>
+
+    <script type="module" src="../app.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  </body>
+</html>
