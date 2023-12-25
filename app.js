@@ -16,6 +16,13 @@ import {
   remove,
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
 
+import {
+  getStorage,
+  ref as storageRef,
+  uploadBytes,
+  getDownloadURL,
+} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js";
+
 const firebaseConfig = {
   apiKey: "AIzaSyCpDQFUKNXYeaLhT01xZ59_VhC_HSrnCFE",
   authDomain: "smit-1st-hackathon.firebaseapp.com",
@@ -29,6 +36,7 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const database = getDatabase(app);
+const storage = getStorage(app);
 
 onAuthStateChanged(auth, (user) => {
   if (user) {
@@ -45,6 +53,14 @@ onAuthStateChanged(auth, (user) => {
   }
 });
 
+// let userImage = [];
+// console.log(userImage);
+// console.log(userImage[0]);
+
+// document.getElementById("user-image").addEventListener("change", async (e) => {
+//   userImage.push(e.target.files[0]);
+// });
+
 const signup = () => {
   const userName = document.getElementById("sign-up-name").value;
   const userEmail = document.getElementById("sign-up-email").value;
@@ -55,25 +71,34 @@ const signup = () => {
       // Signed up
       const user = userCredential.user;
       const userUid = user.uid;
-      console.log(userUid);
 
-      const userdetails = {
-        name: userName,
-        email: userEmail,
-        password: userPassword,
-        uid: userUid,
-      };
+      const userImage = document.getElementById("user-image").files[0];
+      const imageRef = storageRef(
+        storage,
+        `User-Image/${auth.currentUser.uid}`
+      );
+      await uploadBytes(imageRef, userImage).then((snapshot) => {
+        getDownloadURL(imageRef).then(async (url) => {
+          const userdetails = {
+            name: userName,
+            email: userEmail,
+            password: userPassword,
+            uid: userUid,
+            ImageUrl: url,
+          };
 
-      console.log(userdetails);
+          console.log(userdetails);
 
-      await set(ref(database, `Auth/${auth.currentUser.uid}`), userdetails);
+          await set(ref(database, `Auth/${auth.currentUser.uid}`), userdetails);
 
-      const uidref = ref(database, `UID's/`);
-      const updateUidRef = push(uidref);
-      await set(updateUidRef, userUid);
+          const uidref = ref(database, `UID's/`);
+          const updateUidRef = push(uidref);
+          await set(updateUidRef, userUid);
 
-      location.href = "../Blogs/allBlogs.html";
-      // ...
+          location.href = "../Blogs/allBlogs.html";
+          // ...
+        });
+      });
     })
     .catch((error) => {
       const errorCode = error.code;
@@ -123,11 +148,11 @@ const logOut = () => {
       // Sign-out successful.
       console.log("Signout Successfully");
       Swal.fire({
-        position: "top",
+        position: "top-100px",
         icon: "success",
         title: "Logout Successfully",
         showConfirmButton: false,
-        timer: 1500,
+        timer: 3000,
       });
       location.pathname = "./index.html";
     })
@@ -152,12 +177,10 @@ const getUid = () => {
 const postBlog = async () => {
   if (auth.currentUser) {
     onValue(ref(database, `Auth/${auth.currentUser.uid}`), async (snapshot) => {
-      const { name, email, password, uid } = snapshot.val();
-      console.log(uid);
+      const { name, email, password, uid, ImageUrl } = snapshot.val();
 
       const postBlogvalue = document.getElementById("postBlog").value;
       const blogTitle = document.getElementById("blogTitle").value;
-      console.log(postBlogvalue);
 
       // Adding Current User Blogs In DataBase
       const postRef = ref(database, `Current-User-Post/${uid}`);
@@ -167,6 +190,7 @@ const postBlog = async () => {
         email: email,
         title: blogTitle,
         blog: postBlogvalue,
+        ImageUrl: ImageUrl,
         createdAt: new Date().toLocaleDateString(),
       });
 
@@ -175,7 +199,7 @@ const postBlog = async () => {
       location.href = "../Blogs/currentUserBlog.html";
     });
   } else {
-    alert("Dafa hojao");
+    alert("Login First");
   }
 };
 
@@ -191,12 +215,13 @@ const getCurrentUserBlogs = () => {
       snapshot.forEach((childSnapShot) => {
         const dataKey = childSnapShot.key;
         const dataValue = childSnapShot.val();
-        const { blog, createdAt, email, name, title } = dataValue;
+        const { blog, createdAt, email, name, title, ImageUrl } = dataValue;
 
         const blogsCard = `
 <section class="text-gray-600 border-2 rounded-lg body-font overflow-hidden">
     <div class="container px-5 py-24 mx-auto">
-        <div class="-my-8 divide-y-2 divide-gray-100">
+        <div class="-my-8 ">
+        <img class="h-20 w-20 rounded-full" src=${ImageUrl}/>
             <div class="py-8 flex flex-wrap md:flex-nowrap">
                 <div class="md:w-64 md:mb-0 mb-6 flex-shrink-0 flex flex-col">
                     <span class="font-semibold title-font text-gray-700">${name}</span>
@@ -223,6 +248,10 @@ const getCurrentUserBlogs = () => {
         );
         currentUserBlogContainer.innerHTML += blogsCard;
       });
+    } else {
+      document.getElementById(
+        "currentUserBlogContainer"
+      ).innerHTML = `<h1 class="text-center lg:text-4xl mt-8">You Have No Blog</h1>`;
     }
   });
 };
@@ -232,20 +261,18 @@ const getAllPost = () => {
     if (snapshot.exists()) {
       snapshot.forEach((childSnapShot) => {
         const id = childSnapShot.val();
-        console.log(id);
         onValue(ref(database, `Current-User-Post/${id}`), (snapshot) => {
           const isDataExist = snapshot.val();
           if (isDataExist) {
             snapshot.forEach((childSnapShot) => {
-              const { blog, createdAt, email, name, title } =
+              const { blog, createdAt, email, name, title, ImageUrl } =
                 childSnapShot.val();
-
-              console.log(blog);
 
               const blogsCard = `
 <section class="text-gray-600 border-2 rounded-lg body-font overflow-hidden">
     <div class="container px-5 py-24 mx-auto">
-        <div class="-my-8 divide-y-2 divide-gray-100">
+        <div class="-my-8">
+        <img class="h-20 w-20 rounded-full" src=${ImageUrl}/>
             <div class="py-8 flex flex-wrap md:flex-nowrap">
                 <div class="md:w-64 md:mb-0 mb-6 flex-shrink-0 flex flex-col">
                     <span class="font-semibold title-font text-gray-700">${name}</span>
@@ -271,6 +298,9 @@ const getAllPost = () => {
           }
         });
       });
+    } else {
+      document.getElementById("allBlogContainer");
+      allBlogContainer.innerHTML = `<h1 class="text-center lg:text-4xl mt-8">You Have No Blog</h1>`;
     }
   });
 };
