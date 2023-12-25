@@ -280,7 +280,7 @@ const getAllPost = () => {
                     <span class="mt-1 text-gray-500 text-sm">${createdAt}</span>
                 </div>
                 <div class="md:flex-grow">
-                    <h2 class="text-2xl font-medium text-gray-900 title-font mb-2">${title}</h2>
+                    <h2 class="text-2xl font-bold text-gray-900 title-font mb-2">${title}</h2>
                     <p class="leading-relaxed">${blog}</p>
                     
         </div>
