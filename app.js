@@ -95,6 +95,14 @@ const signup = () => {
           const updateUidRef = push(uidref);
           await set(updateUidRef, userUid);
 
+          await Swal.fire({
+            position: "top-100px",
+            icon: "success",
+            title: "Your work has been saved",
+            showConfirmButton: false,
+            timer: 1500,
+          });
+
           location.href = "../Blogs/allBlogs.html";
           // ...
         });
@@ -120,16 +128,15 @@ const login = () => {
   console.log(user);
 
   signInWithEmailAndPassword(auth, userEmail.value, userPassword.value)
-    .then((userCredential) => {
+    .then(async (userCredential) => {
       // Signed in
       const user = userCredential.user;
-
       // ...
 
-      Swal.fire({
+      await Swal.fire({
         position: "top-100px",
         icon: "success",
-        title: "Your work has been saved",
+        title: "Sign In Successfully",
         showConfirmButton: false,
         timer: 1500,
       });
@@ -144,10 +151,10 @@ const login = () => {
 
 const logOut = () => {
   signOut(auth)
-    .then(() => {
+    .then(async () => {
       // Sign-out successful.
       console.log("Signout Successfully");
-      Swal.fire({
+      await Swal.fire({
         position: "top-100px",
         icon: "success",
         title: "Logout Successfully",
