@@ -44,22 +44,11 @@ onAuthStateChanged(auth, (user) => {
     getCurrentUserBlogs();
     getAllPost();
     getUid();
-    // document.getElementById("goToLogin").style.display = "none";
   } else {
-    // User is signed out
     getAllPost();
-
     document.getElementById("goToLogin").style.display = "block";
   }
 });
-
-// let userImage = [];
-// console.log(userImage);
-// console.log(userImage[0]);
-
-// document.getElementById("user-image").addEventListener("change", async (e) => {
-//   userImage.push(e.target.files[0]);
-// });
 
 const signup = () => {
   const userName = document.getElementById("sign-up-name").value;
@@ -68,7 +57,6 @@ const signup = () => {
 
   createUserWithEmailAndPassword(auth, userEmail, userPassword)
     .then(async (userCredential) => {
-      // Signed up
       const user = userCredential.user;
       const userUid = user.uid;
 
@@ -87,8 +75,6 @@ const signup = () => {
             ImageUrl: url,
           };
 
-          console.log(userdetails);
-
           await set(ref(database, `Auth/${auth.currentUser.uid}`), userdetails);
 
           const uidref = ref(database, `UID's/`);
@@ -104,14 +90,17 @@ const signup = () => {
           });
 
           location.href = "../Blogs/allBlogs.html";
-          // ...
         });
       });
     })
     .catch((error) => {
       const errorCode = error.code;
       const errorMessage = error.message;
-      // ..
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: errorMessage,
+      });
     });
 };
 
@@ -129,9 +118,7 @@ const login = () => {
 
   signInWithEmailAndPassword(auth, userEmail.value, userPassword.value)
     .then(async (userCredential) => {
-      // Signed in
       const user = userCredential.user;
-      // ...
 
       await Swal.fire({
         position: "top-100px",
@@ -146,13 +133,17 @@ const login = () => {
     .catch((error) => {
       const errorCode = error.code;
       const errorMessage = error.message;
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: errorMessage,
+      });
     });
 };
 
 const logOut = () => {
   signOut(auth)
     .then(async () => {
-      // Sign-out successful.
       console.log("Signout Successfully");
       await Swal.fire({
         position: "top-100px",
@@ -165,7 +156,13 @@ const logOut = () => {
     })
 
     .catch((error) => {
-      // An error happened.
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: errorMessage,
+      });
     });
 };
 
@@ -179,8 +176,6 @@ const getUid = () => {
   });
 };
 
-// console.log(useerId);
-
 const postBlog = async () => {
   if (auth.currentUser) {
     onValue(ref(database, `Auth/${auth.currentUser.uid}`), async (snapshot) => {
@@ -189,7 +184,6 @@ const postBlog = async () => {
       const postBlogvalue = document.getElementById("postBlog").value;
       const blogTitle = document.getElementById("blogTitle").value;
 
-      // Adding Current User Blogs In DataBase
       const postRef = ref(database, `Current-User-Post/${uid}`);
       const updatePostRef = push(postRef);
       await set(updatePostRef, {
@@ -206,7 +200,12 @@ const postBlog = async () => {
       location.href = "../Blogs/currentUserBlog.html";
     });
   } else {
-    alert("Login First");
+    await Swal.fire({
+      icon: "error",
+      title: "Authentication error",
+      text: "Login First",
+      footer: '<a href="../Auth/login.html">Click Here to Login</a>',
+    });
   }
 };
 
@@ -214,7 +213,6 @@ const getCurrentUserBlogs = () => {
   const currentUserBlogContainer = document.getElementById(
     "currentUserBlogContainer"
   );
-  // currentUserBlogContainer.innerHTML = null;
   const postRef = ref(database, `Current-User-Post/${auth.currentUser.uid}`);
   onValue(postRef, (snapshot) => {
     const isDataExist = snapshot.exists();

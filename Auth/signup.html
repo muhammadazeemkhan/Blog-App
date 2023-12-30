@@ -6,13 +6,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>SignUp</title>
     <script src="https://cdn.tailwindcss.com"></script>
-     <link
+    <link
       href="https://fonts.googleapis.com/css2?family=Kumbh+Sans:wght@100&family=Poppins:wght@100;200&family=Roboto:wght@100&family=Shadows+Into+Light&display=swap"
       rel="stylesheet"
     />
   </head>
-  <body class="bg-gray-400 font-[Poppins]">
-    <div class="flex justify-center mt-[10%] mx-4">
+  <body class="bg-gray-200 font-[Poppins]">
+    <div class="flex justify-center mt-[2%] mx-4">
       <div
         class="w-96 backdrop-blur-lg bg-opacity-80 rounded-lg shadow-lg p-5 bg-gray-900 text-white"
       >
@@ -62,7 +62,7 @@
             <input
               type="file"
               id="user-image"
-              class="bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 w-full py-2.5 px-4"
+              class="bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 w-full py-2 px-4 file:mr-4 file:rounded-md file:border-0 file:bg-purple-600 file:py-2 file:px-4 file:text-sm file:font-semibold file:text-white hover:file:bg-purple-700 focus:outline-none disabled:pointer-events-none disabled:opacity-60"
               placeholder="Upload Image"
               required="true"
               value=""
@@ -71,14 +71,14 @@
           <div>
             <p class="text-red-500 pb-5"></p>
           </div>
-          <div class="flex items-center justify-between mb-4">
+          <div class="flex flex-col items-center mb-4">
             <button
               onclick="signup()"
               class="text-white bg-purple-600 hover:bg-purple-700 focus:ring-2 focus:ring-blue-300 font-medium rounded-lg text-sm py-2.5 px-5 w-full sm:w-auto"
             >
               Signup
             </button>
-            <div class="flex items-center text-sm">
+            <div class="flex items-center mt-2 text-sm">
               <p>Already have an account?</p>
               <a href="./login.html" class="underline cursor-pointer ml-1"
                 >Sign in</a
