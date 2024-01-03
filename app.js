@@ -197,6 +197,16 @@ const postBlog = async () => {
 
       document.getElementById("postBlog").value = null;
       document.getElementById("blogTitle").value = null;
+
+       await Swal.fire({
+         position: "top-100px",
+         icon: "success",
+         title: "Blog Post Successfully",
+         showConfirmButton: false,
+         timer: 3000,
+       });
+
+
       location.href = "../Blogs/currentUserBlog.html";
     });
   } else {
