@@ -14,6 +14,7 @@ import {
   push,
   onValue,
   remove,
+  update,
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
 
 import {
@@ -198,14 +199,13 @@ const postBlog = async () => {
       document.getElementById("postBlog").value = null;
       document.getElementById("blogTitle").value = null;
 
-       await Swal.fire({
-         position: "top-100px",
-         icon: "success",
-         title: "Blog Post Successfully",
-         showConfirmButton: false,
-         timer: 3000,
-       });
-
+      await Swal.fire({
+        position: "top-100px",
+        icon: "success",
+        title: "Blog Post Successfully",
+        showConfirmButton: false,
+        timer: 3000,
+      });
 
       location.href = "../Blogs/currentUserBlog.html";
     });
@@ -253,6 +253,10 @@ const getCurrentUserBlogs = () => {
                  <button onclick="deleteCurrent(this)"
                    id=${dataKey}
          class="inline-flex text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded text-lg">Delete</button>
+
+         <button onclick="editPost(this)"
+         id=${dataKey + "edit"}
+         class="inline-flex text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded text-lg">Edit</button>
             </div>
         </div>
     </div>
@@ -330,8 +334,38 @@ const deleteCurrent = (btn) => {
   document.getElementById("currentUserBlogContainer").innerHTML = null;
   getCurrentUserBlogs();
 };
+
+const editPost = (btn) => {
+  const postId = btn.id.slice(0, btn.id.length - 4);
+  const postRef = ref(
+    database,
+    `Current-User-Post/${auth.currentUser.uid}/${postId}`
+  );
+  onValue(postRef, async (snapshot) => {
+    const { blog } = snapshot.val();
+    const newpost = prompt("Edit", blog);
+    console.log(blog);
+    console.log(newpost);
+    update(postRef, {
+      ...snapshot.val(),
+      blog: newpost,
+      createdAt: new Date().toLocaleDateString(),
+    });
+    await Swal.fire({
+      position: "top-100px",
+      icon: "success",
+      title: "Blog Updated Successfully",
+      showConfirmButton: false,
+      timer: 3000,
+    });
+
+    document.getElementById("currentUserBlogContainer").innerHTML = null;
+    getCurrentUserBlogs();
+  });
+};
 window.signup = signup;
 window.login = login;
 window.logOut = logOut;
 window.postBlog = postBlog;
 window.deleteCurrent = deleteCurrent;
+window.editPost = editPost;
