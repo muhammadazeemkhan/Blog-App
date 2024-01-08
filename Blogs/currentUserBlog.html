@@ -1,50 +1,52 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Your Blogs</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link
-      href="https://fonts.googleapis.com/css2?family=Kumbh+Sans:wght@100&family=Poppins:wght@100;200&family=Roboto:wght@100&family=Shadows+Into+Light&display=swap"
-      rel="stylesheet"
-    />
-  </head>
-  <body class="font-[Poppins]">
-    <div class="flex justify-between m-4">
-      <h1 class="text-center text-2xl lg:text-4xl">Your Blogs</h1>
-      <button
-        class="inline-flex text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded text-lg"
-        onclick="logOut()"
-      >
-        Logout
-      </button>
-    </div>
-    <div class="flex justify-center gap-16">
-      <a
-        class="inline-flex text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded text-lg"
-        href="../PostBlog/postBlog.html"
-        >Post Blogs</a
-      >
-      <a
-        class="inline-flex text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded text-lg"
-        href="./allBlogs.html"
-        >All Blogs</a
-      >
-    </div>
 
-    <a
-      style="display: none"
-      class="text-center mt-4"
-      id="goToLogin"
-      href="../Auth/login.html"
-      >You Are Not Login Please
-      <span class="text-blue-300">login</span> First</a
-    >
-    <div id="currentUserBlogContainer" class="flex flex-col p-4 gap-4"></div>
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Your Blogs</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Kumbh+Sans:wght@100&family=Poppins:wght@100;200&family=Roboto:wght@100&family=Shadows+Into+Light&display=swap"
+    rel="stylesheet" />
+</head>
 
-    <script type="module" src="../app.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-  </body>
+<body class="font-[Poppins]">
+  <div class="hidden m-2 w-screen bg-gray-100 p-4 rounded absolute top-[200px]" id="editContainer">
+
+    <label for="message" class="block mb-2 text-sm font-medium text-gray-900 ">Your message</label>
+    <textarea id="message" rows="4"
+      class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500  dark:border-gray-600 dark:placeholder-gray-400  dark:focus:ring-blue-500 dark:focus:border-blue-500"
+      placeholder="Write your thoughts here..."></textarea>
+    <button onclick="sbc()">click</button>
+  </div>
+
+
+
+
+
+  <div class="flex justify-between m-4">
+    <h1 class="text-center text-2xl lg:text-4xl">Your Blogs</h1>
+    <button
+      class="inline-flex text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded text-lg"
+      onclick="logOut()">
+      Logout
+    </button>
+  </div>
+  <div class="flex justify-center gap-16">
+    <a class="inline-flex text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded text-lg"
+      href="../PostBlog/postBlog.html">Post Blogs</a>
+    <a class="inline-flex text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded text-lg"
+      href="./allBlogs.html">All Blogs</a>
+  </div>
+
+  <a style="display: none" class="text-center mt-4" id="goToLogin" href="../Auth/login.html">You Are Not Login Please
+    <span class="text-blue-300">login</span> First</a>
+  <div id="currentUserBlogContainer" class="flex flex-col p-4 gap-4"></div>
+
+  <script type="module" src="../app.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</body>
+
 </html>

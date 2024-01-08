@@ -199,12 +199,27 @@ const postBlog = async () => {
       document.getElementById("postBlog").value = null;
       document.getElementById("blogTitle").value = null;
 
+      let timerInterval;
       await Swal.fire({
-        position: "top-100px",
-        icon: "success",
-        title: "Blog Post Successfully",
-        showConfirmButton: false,
-        timer: 3000,
+        title: "Your Blog is ready to post",
+        html: "Your Blog is posted in <b></b> milliseconds.",
+        timer: 2000,
+        timerProgressBar: true,
+        didOpen: () => {
+          Swal.showLoading();
+          const timer = Swal.getPopup().querySelector("b");
+          timerInterval = setInterval(() => {
+            timer.textContent = `${Swal.getTimerLeft()}`;
+          }, 100);
+        },
+        willClose: () => {
+          clearInterval(timerInterval);
+        },
+      }).then((result) => {
+        /* Read more about handling dismissals below */
+        if (result.dismiss === Swal.DismissReason.timer) {
+          console.log("I was closed by the timer");
+        }
       });
 
       location.href = "../Blogs/currentUserBlog.html";
@@ -325,17 +340,55 @@ const getAllPost = () => {
 };
 
 const deleteCurrent = (btn) => {
-  const elemntID = btn.id;
-  const postRef = ref(
-    database,
-    `Current-User-Post/${auth.currentUser.uid}/${elemntID}`
-  );
-  remove(postRef);
-  document.getElementById("currentUserBlogContainer").innerHTML = null;
-  getCurrentUserBlogs();
+  const swalWithBootstrapButtons = Swal.mixin({
+    customClass: {
+      confirmButton: "btn btn-success",
+      cancelButton: "btn btn-danger",
+    },
+    buttonsStyling: true,
+  });
+  swalWithBootstrapButtons
+    .fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Yes, delete it!",
+      cancelButtonText: "No, cancel!",
+      reverseButtons: true,
+    })
+    .then((result) => {
+      if (result.isConfirmed) {
+        swalWithBootstrapButtons.fire({
+          title: "Deleted!",
+          text: "Your file has been deleted.",
+          icon: "success",
+        });
+
+        const elemntID = btn.id;
+        const postRef = ref(
+          database,
+          `Current-User-Post/${auth.currentUser.uid}/${elemntID}`
+        );
+        remove(postRef);
+        document.getElementById("currentUserBlogContainer").innerHTML = null;
+        getCurrentUserBlogs();
+      } else if (
+        /* Read more about handling dismissals below */
+        result.dismiss === Swal.DismissReason.cancel
+      ) {
+        swalWithBootstrapButtons.fire({
+          title: "Cancelled",
+          text: "Your imaginary file is safe :)",
+          icon: "error",
+        });
+      }
+    });
 };
 
 const editPost = (btn) => {
+  // const editContainer = document.getElementById("editContainer");
+  // editContainer.style.display = "block";
   const postId = btn.id.slice(0, btn.id.length - 4);
   const postRef = ref(
     database,
@@ -363,9 +416,15 @@ const editPost = (btn) => {
     getCurrentUserBlogs();
   });
 };
+
+const sbc = () => {
+  const message = document.getElementById("message");
+  console.log(message.value);
+};
 window.signup = signup;
 window.login = login;
 window.logOut = logOut;
 window.postBlog = postBlog;
 window.deleteCurrent = deleteCurrent;
 window.editPost = editPost;
+window.sbc = sbc;

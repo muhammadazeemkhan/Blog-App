@@ -1,52 +1,47 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Post Blog</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link
-      href="https://fonts.googleapis.com/css2?family=Kumbh+Sans:wght@100&family=Poppins:wght@100;200&family=Roboto:wght@100&family=Shadows+Into+Light&display=swap"
-      rel="stylesheet"
-    />
-  </head>
-  <body class="font-[Poppins]">
-    <h1 class="text-center text-4xl md:text-6xl my-4">Post Blog</h1>
-    <div class="flex flex-col justify-start">
-      <span class="text-4xl ms-4">Title :</span>
-      <input
-        id="blogTitle"
-        class="ring-2 rounded-lg mx-4 my-4 p-4"
-        placeholder="write Title of your blog"
-      />
-    </div>
 
-    <div class="flex flex-col justify-start">
-      <span class="text-4xl m-4">Blog :</span>
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Post Blog</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Kumbh+Sans:wght@100&family=Poppins:wght@100;200&family=Roboto:wght@100&family=Shadows+Into+Light&display=swap"
+    rel="stylesheet" />
+</head>
 
-      <input
-        id="postBlog"
-        class="ring-2 rounded-lg h-32 mx-4 placeholder:text-3xl placeholder:px-8"
-        placeholder="write blog"
-      />
-    </div>
-    <div class="flex justify-center items-center gap-4 mt-4">
-      <button
-        class="inline-flex text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded text-lg"
-        onclick="postBlog()"
-      >
-        post blog
-      </button>
-      <button
-        class="inline-flex text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded text-lg"
-        onclick="logOut()"
-      >
-        Logout
-      </button>
-    </div>
+<body class="font-[Poppins]">
+  <h1 class="text-center text-4xl md:text-6xl my-4">Post Blog</h1>
+  <div class="flex flex-col justify-start">
+    <span class="text-4xl ms-4">Title :</span>
+    <input id="blogTitle" class="ring-2 rounded-lg mx-4 my-4 p-4" placeholder="write Title of your blog" />
+  </div>
 
-    <script type="module" src="../app.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-  </body>
+  <div class="flex flex-col justify-start">
+    <span class="text-4xl m-4">Blog :</span>
+    <div class="m-3">
+      <textarea id="postBlog" rows="4"
+        class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg ring-2 focus:ring-blue-500 focus:border-blue-500 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
+        placeholder="Write your Blog"></textarea>
+    </div>
+  </div>
+  <div class="flex justify-center items-center gap-4 mt-4">
+    <button
+      class="inline-flex text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded text-lg"
+      onclick="postBlog()">
+      post blog
+    </button>
+    <button
+      class="inline-flex text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded text-lg"
+      onclick="logOut()">
+      Logout
+    </button>
+  </div>
+
+  <script type="module" src="../app.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</body>
+
 </html>
