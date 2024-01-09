@@ -387,8 +387,12 @@ const deleteCurrent = (btn) => {
 };
 
 const editPost = (btn) => {
-  // const editContainer = document.getElementById("editContainer");
-  // editContainer.style.display = "block";
+  let postContainer = document.getElementById("postContainer");
+  postContainer.style.display = "none";
+
+  let editContainer = document.getElementById("editContainer");
+  editContainer.style.display = "block";
+
   const postId = btn.id.slice(0, btn.id.length - 4);
   const postRef = ref(
     database,
@@ -396,30 +400,36 @@ const editPost = (btn) => {
   );
   onValue(postRef, async (snapshot) => {
     const { blog } = snapshot.val();
-    const newpost = prompt("Edit", blog);
-    console.log(blog);
-    console.log(newpost);
-    update(postRef, {
-      ...snapshot.val(),
-      blog: newpost,
-      createdAt: new Date().toLocaleDateString(),
-    });
-    await Swal.fire({
-      position: "top-100px",
-      icon: "success",
-      title: "Blog Updated Successfully",
-      showConfirmButton: false,
-      timer: 3000,
-    });
+    let message = document.getElementById("message");
+    message.value = blog;
 
-    document.getElementById("currentUserBlogContainer").innerHTML = null;
-    getCurrentUserBlogs();
+    document
+      .getElementById("updateBlog")
+      .addEventListener("click", async () => {
+        let message = document.getElementById("message").value;
+
+        update(postRef, {
+          ...snapshot.val(),
+          blog: message,
+          createdAt: new Date().toLocaleDateString(),
+        });
+        await Swal.fire({
+          position: "top-100px",
+          icon: "success",
+          title: "Blog Updated Successfully",
+          showConfirmButton: false,
+          timer: 3000,
+        });
+        let editContainer = document.getElementById("editContainer");
+        editContainer.style.display = "none";
+
+        let postContainer = document.getElementById("postContainer");
+        postContainer.style.display = "block";
+
+        document.getElementById("currentUserBlogContainer").innerHTML = null;
+        getCurrentUserBlogs();
+      });
   });
-};
-
-const sbc = () => {
-  const message = document.getElementById("message");
-  console.log(message.value);
 };
 window.signup = signup;
 window.login = login;
@@ -427,4 +437,3 @@ window.logOut = logOut;
 window.postBlog = postBlog;
 window.deleteCurrent = deleteCurrent;
 window.editPost = editPost;
-window.sbc = sbc;
